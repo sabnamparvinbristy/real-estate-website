@@ -1,13 +1,15 @@
 // components/navbar/Navbar.jsx
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./navbar.scss";
 import { Link, useNavigate } from "react-router-dom"; // Add useNavigate
+import { AuthContext } from "../../context/AuthContext";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+
+  const {currentUser} =useContext(AuthContext)
   const navigate = useNavigate(); // Get the navigate function
 
-  const user = true;
   
   
   return (
@@ -23,10 +25,13 @@ function Navbar() {
         <Link to="/">Agents</Link>
       </div>
       <div className="right">
-        {user ? (
+        {currentUser ? (
           <div className="user">
-            <img src="/profile.png" alt="" />
-            <span>Sabnam Parvin</span>
+            <img 
+            src={currentUser.avatar || "/noavatar.png"}
+            alt=""
+            />
+            <span>{currentUser.username}</span>
             <Link to="/profile" className="profile">
               <div className="notification">3</div>
               <span>Profile</span>
