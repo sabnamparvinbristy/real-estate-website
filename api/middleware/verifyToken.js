@@ -1,3 +1,5 @@
+
+
 import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
@@ -8,20 +10,7 @@ export const verifyToken = (req, res, next) => {
     if (err) return res.status(403).json({ message: "Token is not valid!" });
 
     req.userId = payload.id;
-    req.isAdmin = payload.isAdmin;
-
     next();
   });
 };
 
-export const shouldBeLoggedIn = (req, res) => {
-  console.log("User ID:", req.userId);
-  res.status(200).json({ message: "You are authenticated" });
-};
-
-export const shouldBeAdmin = (req, res, next) => {
-  if (!req.isAdmin) {
-    return res.status(403).json({ message: "Not authorized!" });
-  }
-  next();
-};
