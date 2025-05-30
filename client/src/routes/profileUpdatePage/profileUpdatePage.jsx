@@ -4,12 +4,16 @@ import {AuthContext} from "../../context/AuthContext"
 import { useState } from "react";
 import apiRequest from "../../lib/apiRequest";
 import { useNavigate } from "react-router-dom";
+import UploadWidget from "../../components/uploadWidget/UploadWidget";
 
 function ProfileUpdatePage() {
 
-  const [error,setError] = useState("")
+  
+  const {currentUser, updateUser} = useContext(AuthContext);
+  const [error,setError] = useState("");
+  const [avatar, setAvatar] = useState(currentUser.avatar);
 
-const {currentUser, updateUser} = useContext(AuthContext);
+
 
 
 const navigate = useNavigate()
@@ -32,15 +36,19 @@ const handleSubmit= async e=>{
       username,
       email, 
       password,
+      avatar,
     });
     updateUser(res.data);
     navigate("/profile");
 
 
-  }catch(err){
-    console.log(err)
-    setError(err.response.data.message)
-  }
+  }catch (err) {
+  console.log(err);
+  const message =
+    err?.response?.data?.message || err.message || "Something went wrong";
+  setError(message);
+}
+
 };
 
   return (
@@ -75,7 +83,17 @@ const handleSubmit= async e=>{
         </form>
       </div>
       <div className="sideContainer">
-        <img src={currentUser.avatar || "/noavatar.png"} alt="" className="avatar" />
+        <img src={avatar || "/noavatar.png"} alt="" className="avatar" />
+
+        <UploadWidget uwConfig={{
+          cloudName: "duaanddv3",
+          uploadPreset: "estate",
+          multiple: false,
+          maxImageFileSize: 2000000,
+          folder: "avatars",
+        }}
+        setAvatar = {setAvatar}
+        />
       </div>
     </div>
   );
