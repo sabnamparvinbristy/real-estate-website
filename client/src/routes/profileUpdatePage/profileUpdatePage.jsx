@@ -1,15 +1,52 @@
 import { useContext } from "react";
 import "./profileUpdatePage.scss";
 import {AuthContext} from "../../context/AuthContext"
+import { useState } from "react";
+import apiRequest from "../../lib/apiRequest";
+import { useNavigate } from "react-router-dom";
 
 function ProfileUpdatePage() {
 
+  const [error,setError] = useState("")
+
 const {currentUser, updateUser} = useContext(AuthContext);
+
+
+const navigate = useNavigate()
+
+
+
+
+
+
+const handleSubmit= async e=>{
+  e.preventDefault()
+  const formData = new FormData(e.target);
+
+
+  const {username,email, password} = Object.fromEntries(formData);
+
+
+  try{
+    const res =  await apiRequest.put(`/users/${currentUser.id}`, {
+      username,
+      email, 
+      password,
+    });
+    updateUser(res.data);
+    navigate("/profile");
+
+
+  }catch(err){
+    console.log(err)
+    setError(err.response.data.message)
+  }
+};
 
   return (
     <div className="profileUpdatePage">
       <div className="formContainer">
-        <form>
+        <form onSubmit={handleSubmit}>
           <h1>Update Profile</h1>
           <div className="item">
             <label htmlFor="username">Username</label>
@@ -34,6 +71,7 @@ const {currentUser, updateUser} = useContext(AuthContext);
             <input id="password" name="password" type="password" />
           </div>
           <button>Update</button>
+          {error && <span>error</span>}
         </form>
       </div>
       <div className="sideContainer">
