@@ -1,4 +1,4 @@
-import { useAsyncError, useNavigate } from "react-router-dom";
+import { Link, useAsyncError, useNavigate } from "react-router-dom";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import "./profilePage.scss";
@@ -35,7 +35,10 @@ function ProfilePage(){
                 <div className="wrapper">
                     <div className="title">
                         <h1>User Information</h1>
+                        <Link to="/profile/update">
                         <button>Update Profile</button>
+                        </Link>
+                        
                     </div>
                     <div className="info">
                         <span>
