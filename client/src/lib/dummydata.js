@@ -2,7 +2,7 @@
   {
     id: 1,
     title: "Modern 2BHK apartment in Dhanmondi",
-    img: "house1.png",
+    images: ["house1.png"],
     bedroom: 2,
     bathroom: 2,
     price: 12500000,
@@ -13,7 +13,7 @@
   {
     id: 2,
     title: "Spacious flat near Chittagong city center",
-    img: "house2.png",
+    images: ["house2.png"],
     bedroom: 3,
     bathroom: 3,
     price: 9500000,
@@ -24,7 +24,7 @@
   {
     id: 3,
     title: "Luxury condo in Gulshan",
-    img: "house3.png",
+    images: ["house3.png"],
     bedroom: 3,
     bathroom: 3,
     price: 18000000,
@@ -35,7 +35,7 @@
   {
     id: 4,
     title: "Stylish 2BHK flat in Mirpur DOHS",
-    img: "house4.png",
+    images: ["house4.png"],
     bedroom: 2,
     bathroom: 2,
     price: 6900000,
@@ -46,7 +46,7 @@
   {
     id: 5,
     title: "Family apartment in Uttara Sector 11",
-    img: "house5.png",
+    images: ["house5.png"],
     bedroom: 3,
     bathroom: 3,
     price: 7900000,
@@ -57,7 +57,7 @@
   {
     id: 6,
     title: "Lakeview apartment in Baridhara DOHS",
-    img: "house6.png",
+    images: ["house6.png"],
     bedroom: 3,
     bathroom: 3,
     price: 16500000,
@@ -68,7 +68,7 @@
   {
     id: 7,
     title: "Affordable 2BHK flat in Khulna city",
-    img: "house7.png",
+    images: ["house7.png"],
     bedroom: 2,
     bathroom: 2,
     price: 5500000,
@@ -79,7 +79,7 @@
   {
     id: 8,
     title: "Corporate-ready office apartment in Motijheel",
-    img: "house8.png",
+   images: ["house8.png"],
     bedroom: 2,
     bathroom: 2,
     price: 22000000,
@@ -90,7 +90,7 @@
   {
     id: 9,
     title: "Elegant duplex in Bashundhara R/A",
-    img: "house9.png",
+    images: ["house9.png"],
     bedroom: 4,
     bathroom: 4,
     price: 25000000,
@@ -101,7 +101,7 @@
   {
     id: 10,
     title: "Newly-built house in Sylhet town",
-    img: "house10.png",
+    images: ["house10.png"],
     bedroom: 3,
     bathroom: 3,
     price: 8900000,
