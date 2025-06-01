@@ -49,6 +49,7 @@ export const updateUser = async (req, res) => {
     });
 
     const { password: userPassword, ...rest } = updatedUser;
+
     res.status(200).json(rest);
   } catch (err) {
     console.log(err);
@@ -79,12 +80,6 @@ export const savePost = async (req, res) => {
   const postId = req.body.postId;
   const tokenUserId = req.userId;
 
-  console.log("SavePost called. userId:", tokenUserId, "postId:", postId);
-
-  if (!tokenUserId || !postId) {
-    return res.status(400).json({ message: "Invalid user ID or post ID" });
-  }
-
   try {
     const savedPost = await prisma.savedPost.findUnique({
       where: {
@@ -101,7 +96,7 @@ export const savePost = async (req, res) => {
           id: savedPost.id,
         },
       });
-      return res.status(200).json({ message: "Post removed from saved list" });
+      res.status(200).json({ message: "Post removed from saved list" });
     } else {
       await prisma.savedPost.create({
         data: {
@@ -109,11 +104,11 @@ export const savePost = async (req, res) => {
           postId,
         },
       });
-      return res.status(200).json({ message: "Post saved" });
+      res.status(200).json({ message: "Post saved" });
     }
   } catch (err) {
-    console.error("❌ Error in savePost:", err);
-    res.status(500).json({ message: "Something went wrong while saving the post" });
+    console.log(err);
+    res.status(500).json({ message: "Failed to delete users!" });
   }
 };
 
@@ -132,6 +127,28 @@ export const profilePosts = async (req, res) => {
 
     const savedPosts = saved.map((item) => item.post);
     res.status(200).json({ userPosts, savedPosts });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to get profile posts!" });
+  }
+};
+
+export const getNotificationNumber = async (req, res) => {
+  const tokenUserId = req.userId;
+  try {
+    const number = await prisma.chat.count({
+      where: {
+        userIDs: {
+          hasSome: [tokenUserId],
+        },
+        NOT: {
+          seenBy: {
+            hasSome: [tokenUserId],
+          },
+        },
+      },
+    });
+    res.status(200).json(number);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Failed to get profile posts!" });
