@@ -7,22 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")  // This will use the connection string from the .env file
 }
 
-model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId  // MongoDB ObjectId field
-  email     String   @unique  // Ensure unique email for each user
-  username  String   @unique  // Ensure unique username
-  password  String   // Store hashed password
-  avatar    String?  // Optional avatar field
-  createdAt DateTime @default(now())  // Automatically set to the current timestamp
-  posts Post[]
-  savedPosts SavedPost[]
-}
+// model User {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId  // MongoDB ObjectId field
+//   email     String   @unique  // Ensure unique email for each user
+//   username  String   @unique  // Ensure unique username
+//   password  String   // Store hashed password
+//   avatar    String?  // Optional avatar field
+//   createdAt DateTime @default(now())  // Automatically set to the current timestamp
+//   posts Post[]
+//   savedPosts SavedPost[]
+// }
 
 model Post {
-  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
   title      String
   price      Int
-  images        String[]
+  images     String[]
   address    String
   city       String
   bedroom    Int
@@ -31,9 +31,9 @@ model Post {
   longitude  String
   type       Type
   property   Property
-  createdAt  DateTime   @default(now())
-  user       User       @relation(fields: [userId], references: [id])
-  userId     String     @db.ObjectId
+  createdAt  DateTime    @default(now())
+  user       User        @relation(fields: [userId], references: [id])
+  userId     String      @db.ObjectId
   postDetail PostDetail?
   savedPosts SavedPost[]
 }
@@ -51,7 +51,7 @@ enum Property {
 }
 
 model PostDetail {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
   desc       String
   utilities  String?
   pet        String?
@@ -60,11 +60,9 @@ model PostDetail {
   school     Int?
   bus        Int?
   restaurant Int?
-
-  post       Post     @relation(fields: [postId], references: [id])
-  postId     String   @db.ObjectId @unique
+  post       Post    @relation(fields: [postId], references: [id])
+  postId     String  @unique @db.ObjectId
 }
-
 
 model SavedPost {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -77,3 +75,34 @@ model SavedPost {
   @@unique([userId, postId])
 }
 
+model User {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  email      String      @unique
+  username   String      @unique
+  password   String
+  avatar     String?
+  createdAt  DateTime    @default(now())
+  posts      Post[]
+  savedPosts SavedPost[]
+  chats      Chat[]      @relation(fields: [chatIDs], references: [id])
+  chatIDs    String[]    @db.ObjectId
+}
+
+model Chat {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  users     User[]    @relation(fields: [userIDs], references: [id])
+  userIDs   String[]  @db.ObjectId
+  createdAt DateTime  @default(now())
+  seenBy    String[]  @db.ObjectId
+  messages  Message[]
+  lastMessage String?
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  userId    String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+}
